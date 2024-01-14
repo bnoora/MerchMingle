@@ -9,7 +9,7 @@ const itemController = require("../controllers/itemController");
 // ITEM ROUTES
 
 // Get home page
-router.get("/", itemController.item_list);
+router.get("/", itemController.index);
 
 // Get request for creating an item
 router.get("/item/create", itemController.item_create_get);
