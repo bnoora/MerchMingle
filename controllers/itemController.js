@@ -1,7 +1,17 @@
 const Item = require("../models/item");
 const Category = require("../models/category");
 const asyncHandler = require("express-async-handler");
+const { body, validationResult } = require("express-validator");
 
+
+// Display home page.
+exports.index = asyncHandler(async (req, res, next) => {
+    const [numItems, numCategories] = await Promise.all([
+        Item.countDocuments({}),
+        Category.countDocuments({})
+    ]);
+    res.render("index", { title: "Inventory Home", numItems: numItems, numCategories: numCategories });
+});
 
 // Display list of all Items.
 exports.item_list = asyncHandler(async (req, res, next) => {
