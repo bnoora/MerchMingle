@@ -57,7 +57,7 @@ app.use(compression());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/categories', require('./routes/category'));
+app.use('/inventory', require('./routes/inventory'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
