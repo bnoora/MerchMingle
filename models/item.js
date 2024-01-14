@@ -9,7 +9,7 @@ const itemSchema = new Schema({
 });
 
 itemSchema.virtual("url").get(function () {
-    return '/item/{this._id}';
+    return `/item/${this._id}`;
 });
 
 
