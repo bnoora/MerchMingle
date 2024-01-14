@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
-const compression = require('npm install');
+const compression = require('compression');
 const helmet = require('helmet');
 const RateLimit = require("express-rate-limit");
 
@@ -16,7 +16,7 @@ var app = express();
 
 
 // set up rate limiter: maximum of 20 requests per minute
-const limiter = new RateLimit({
+const limiter = RateLimit({
 	windowMs: 1 * 60 * 1000, // 1 minute
 	max: 20
 });
