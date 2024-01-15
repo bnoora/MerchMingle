@@ -6,22 +6,25 @@ block content
   form(method='POST')
     div.form-group
         label(for='name') Name:
-        input#name.form-control(type='text', name='name', value=item.name)
+        input#name.form-control(type='text', name='name', required value=(undefined===item ? '' : item.name))
     div.form-group
         label(for='description') Description:
-        input#description.form-control(type='text', name='description', value=item.description)
+        input#description.form-control(type='text', name='description', required value=(undefined===item ? '' : item.description))
     div.form-group
         label(for='price') Price:
-        input#price.form-control(type='text', name='price', value=item.price)
+        input#price.form-control(type='text', name='price', required value=(undefined===item ? '' : item.price))
         label(for='quantity') Quantity:
-        input#quantity.form-control(type='text', name='stock', value=item.stock)
+        input#quantity.form-control(type='text', name='stock', required value=(undefined===item ? '' : item.stock))
     div.form-group
         label(for='category') Category:
-        select#category.form-control(name='category')
+        select#category.form-control(name='category' required)
             option(value='') Select a category
-            each category in categories
-                if category._id.toString() == item.category._id.toString()
-                    option(value=category._id, selected='selected')= category.name
+            for category in categories
+                if item
+                    if category._id.toString() == item.category._id.toString()
+                        option(value=category._id, selected='selected')= category.name
+                    else
+                        option(value=category._id)= category.name
                 else
                     option(value=category._id)= category.name
     input.btn.btn-primary(type='submit', value='Submit')
