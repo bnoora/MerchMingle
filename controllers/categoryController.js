@@ -86,31 +86,19 @@ exports.category_update_get = asyncHandler(async(req, res, next) => {
 });
 
 // Handle Category update on POST.
-exports.category_update_post = asyncHandler(async(req, res, next) => {
-    // Validate and sanitize fields.
-    body("name", "Category name required").trim().isLength({ min: 1 }).escape();
-    body("description", "Category description required").trim().isLength({ min: 1 }).escape();
+exports.category_update_post = [
+    body("name", "Category name required").trim().isLength({ min: 1 }).escape(),
+    body("description", "Category description required").trim().isLength({ min: 1 }).escape(),
 
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
 
-        const category = new Category({
-            name: req.body.name,
-            description: req.body.description,
-            _id: req.params.id
-        });
-
         if (!errors.isEmpty()) {
-            res.render("category_form", { title: "Update Category", category: category, errors: errors.array() });
+            res.render("category_form", { title: "Update Category", category: req.body, errors: errors.array() });
             return;
         } else {
-            const foundCategory = await Category.findOne({ name: req.body.name });
-            if (foundCategory) {
-                res.redirect(foundCategory.url);
-            } else {
-                await Category.findByIdAndUpdate(req.params.id, category);
-                res.redirect(category.url);
-            }
+            const updatedCategory = await Category.findByIdAndUpdate(req.params.id, req.body);
+            res.redirect(updatedCategory.url);
         }
-    });
-});
+    })
+];
