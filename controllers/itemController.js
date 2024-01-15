@@ -70,11 +70,7 @@ exports.item_delete_get = asyncHandler(async (req, res, next) => {
 
 // Handle Item delete on POST.
 exports.item_delete_post = asyncHandler(async (req, res, next) => {
-    const item = await Item.findById(req.params.id)
-    if (item == null) {
-        res.redirect("/inventory/items");
-    }
-    await Item.findByIdAndDelete(req.body.id);
+    await Item.findByIdAndDelete(req.body.itemid);
     res.redirect("/inventory/items");
 });
 
