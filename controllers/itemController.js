@@ -102,33 +102,24 @@ exports.item_update_get = asyncHandler(async (req, res, next) => {
 });
 
 // Handle Item update on POST.
-exports.item_update_post = asyncHandler(async (req, res, next) => {
+exports.item_update_post = [
     // Validate and sanitize fields.
-    body("name", "Name must not be empty.").trim().isLength({ min: 2 }).escape();
-    body("description", "Description must not be empty.").trim().isLength({ min: 2 }).escape();
-    body("price", "Price must not be empty.").trim().isLength({ min: 1 }).escape();
-    body("stock", "Number in stock must not be empty.").trim().isLength({ min: 1 }).escape();
-    body("category", "Category must not be empty.").trim().isLength({ min: 1 }).escape();
+    body("name", "Name must not be empty.").trim().isLength({ min: 2 }).escape(),
+    body("description", "Description must not be empty.").trim().isLength({ min: 2 }).escape(),
+    body("price", "Price must not be empty.").trim().isLength({ min: 1 }).escape(),
+    body("stock", "Number in stock must not be empty.").trim().isLength({ min: 1 }).escape(),
+    body("category", "Category must not be empty.").trim().isLength({ min: 1 }).escape(),
 
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
 
-        const item = new Item({
-            name: req.body.name,
-            description: req.body.description,
-            price: req.body.price,
-            stock: req.body.stock,
-            category: req.body.category,
-            _id: req.params.id
-        });
-
         if (!errors.isEmpty()) {
             const categories = await Category.find().sort([["name", "ascending"]]);
-            res.render("item_form", { title: "Update Item", categories: categories, item: item, errors: errors.array() });
+            res.render("item_form", { title: "Update Item", categories, item: req.body, errors: errors.array() });
             return;
         } else {
-            await Item.findByIdAndUpdate(req.params.id, item);
-            res.redirect(item.url);
+            updatedItem = await Item.findByIdAndUpdate(req.params.id, req.body);
+            res.redirect(updatedItem.url);
         }
-    });
-});
+    })
+];
