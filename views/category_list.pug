@@ -9,6 +9,6 @@ block content
         ul
             each category in categories
                 li
-                    a(href='/category/' + category._id)= category.name
+                    a(href='/inventory/category/' + category._id)= category.name
     else
         p No categories have been created yet.

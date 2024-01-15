@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    h1= title
+
+    if items.length
+        p Our inventory includes the following:
+
+        ul
+            each item in items
+                li
+                    a(href='/inventory/item/' + item._id)= item.name
+    else
+        p No items have been created yet.
