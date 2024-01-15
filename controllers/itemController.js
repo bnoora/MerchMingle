@@ -43,7 +43,7 @@ exports.item_create_post = asyncHandler(async (req, res, next) => {
     body("name", "Name must not be empty.").trim().isLength({ min: 2 }).escape();
     body("description", "Description must not be empty.").trim().isLength({ min: 2 }).escape();
     body("price", "Price must not be empty.").trim().isLength({ min: 1 }).escape();
-    body("number_in_stock", "Number in stock must not be empty.").trim().isLength({ min: 1 }).escape();
+    body("stock", "Number in stock must not be empty.").trim().isLength({ min: 1 }).escape();
     body("category", "Category must not be empty.").trim().isLength({ min: 1 }).escape();
 
     asyncHandler(async (req, res, next) => {
@@ -53,7 +53,7 @@ exports.item_create_post = asyncHandler(async (req, res, next) => {
             name: req.body.name,
             description: req.body.description,
             price: req.body.price,
-            number_in_stock: req.body.number_in_stock,
+            stock: req.body.stock,
             category: req.body.category
         });
 
@@ -107,7 +107,7 @@ exports.item_update_post = asyncHandler(async (req, res, next) => {
     body("name", "Name must not be empty.").trim().isLength({ min: 2 }).escape();
     body("description", "Description must not be empty.").trim().isLength({ min: 2 }).escape();
     body("price", "Price must not be empty.").trim().isLength({ min: 1 }).escape();
-    body("number_in_stock", "Number in stock must not be empty.").trim().isLength({ min: 1 }).escape();
+    body("stock", "Number in stock must not be empty.").trim().isLength({ min: 1 }).escape();
     body("category", "Category must not be empty.").trim().isLength({ min: 1 }).escape();
 
     asyncHandler(async (req, res, next) => {
@@ -117,7 +117,7 @@ exports.item_update_post = asyncHandler(async (req, res, next) => {
             name: req.body.name,
             description: req.body.description,
             price: req.body.price,
-            number_in_stock: req.body.number_in_stock,
+            stock: req.body.stock,
             category: req.body.category,
             _id: req.params.id
         });

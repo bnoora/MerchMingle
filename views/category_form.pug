@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1=title
+
+  form(method='POST')
+    div.form-group
+        label(for='name') Name:
+        input#name.form-control(type='text', name='name', value=category.name)
+    div.form-group
+        label(for='description') Description:
+        input#description.form-control(type='text', name='description', value=category.description)
+    input.btn.btn-primary(type='submit', value='Submit')
+
+    hr
+    if errors
+        ul
+            each error, i in errors
+                li!= error.msg
