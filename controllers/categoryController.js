@@ -60,7 +60,7 @@ exports.category_delete_get = asyncHandler(async(req, res, next) => {
 // Handle Category delete on POST.
 exports.category_delete_post = asyncHandler(async(req, res, next) => {
     const [category, items] = await Promise.all([
-        Category.findById(req.params.id),
+        Category.findById(req.body.categoryid),
         Item.find({ category: req.params.id })
     ]);
     if (category == null) {
@@ -71,7 +71,7 @@ exports.category_delete_post = asyncHandler(async(req, res, next) => {
         errors: "Category has items. Delete items first."});
         return;
     } else {
-        await Category.findByIdAndDelete(req.body.id);
+        await Category.findByIdAndDelete(req.body.categoryid);
         res.redirect("/inventory/categories");
     }
 });

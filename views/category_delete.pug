@@ -10,8 +10,4 @@ block content
         input.btn.btn-primary(type='submit', value='Delete')
 
     if errors
-        ul
-            each error, i in errors
-                li!= error.msg
-
-    
+        p #{errors}
