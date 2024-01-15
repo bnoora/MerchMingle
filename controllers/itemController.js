@@ -38,35 +38,26 @@ exports.item_create_get = asyncHandler(async (req, res, next) => {
 });
 
 // Handle Item create on POST.
-exports.item_create_post = asyncHandler(async (req, res, next) => {
-    // Validate and sanitize fields.
-    body("name", "Name must not be empty.").trim().isLength({ min: 2 }).escape();
-    body("description", "Description must not be empty.").trim().isLength({ min: 2 }).escape();
-    body("price", "Price must not be empty.").trim().isLength({ min: 1 }).escape();
-    body("stock", "Number in stock must not be empty.").trim().isLength({ min: 1 }).escape();
-    body("category", "Category must not be empty.").trim().isLength({ min: 1 }).escape();
+exports.item_create_post = [
+    // Validation and sanitization middleware
+    body("name", "Name must not be empty.").trim().isLength({ min: 2 }).escape(),
+    body("description", "Description must not be empty.").trim().isLength({ min: 2 }).escape(),
+    body("price", "Price must not be empty.").trim().isLength({ min: 1 }).escape(),
+    body("stock", "Number in stock must not be empty.").trim().isLength({ min: 1 }).escape(),
+    body("category", "Category must not be empty.").trim().isLength({ min: 1 }).escape(),
 
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
 
-        const item = new Item({
-            name: req.body.name,
-            description: req.body.description,
-            price: req.body.price,
-            stock: req.body.stock,
-            category: req.body.category
-        });
-
         if (!errors.isEmpty()) {
             const categories = await Category.find().sort([["name", "ascending"]]);
-            res.render("item_form", { title: "Create Item", categories: categories, item: item, errors: errors.array() });
-            return;
+            res.render("item_form", { title: "Create Item", categories, item: req.body, errors: errors.array() });
         } else {
-            await Item.create(req.body);
-            res.redirect(item.url);
+            const newItem = await Item.create(req.body);
+            res.redirect(newItem.url); // Ensure this URL is correctly generated in your Item model
         }
-    });
-});
+    })
+];
 
 // Display Item delete form on GET.
 exports.item_delete_get = asyncHandler(async (req, res, next) => {
