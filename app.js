@@ -33,7 +33,7 @@ app.use(
 
 // Set up mongoose connection
 mongoose.set("strictQuery", false);
-const dev_db_url = "mongodb+srv://bnoorani:d5ZsgTgR6g@cluster0.9qjllmq.mongodb.net/inventory_app?retryWrites=true&w=majority";
+const dev_db_url = "";
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
 
 main().catch((err) => console.log(err));
