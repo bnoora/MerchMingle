@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -34,7 +35,7 @@ app.use(
 // Set up mongoose connection
 mongoose.set("strictQuery", false);
 const dev_db_url = "";
-const mongoDB = process.env.MONGODB_URI || dev_db_url;
+const mongoDB = process.env.MONGO_URI || dev_db_url;
 
 main().catch((err) => console.log(err));
 async function main() {
