@@ -4,41 +4,33 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
 
-// Display home page.
+// Get stuff for home page
 exports.index = asyncHandler(async (req, res, next) => {
     const [numItems, numCategories] = await Promise.all([
         Item.countDocuments({}),
         Category.countDocuments({})
     ]);
-    res.render("index", { title: "Inventory Home", numItems: numItems, numCategories: numCategories });
+    res.json({numItems : numItems, numCategories : numCategories});
 });
 
-// Display list of all Items.
+// Get list of all items
 exports.item_list = asyncHandler(async (req, res, next) => {
     const items = await Item.find().populate("category").sort([["name", "ascending"]]);
-    res.render("item_list", { title: "Items", items: items });
+    res.json({items : items});
 });
 
-// Display detail page for a specific Item.
+// Get item details
 exports.item_detail = asyncHandler(async (req, res, next) => {
     const item = await Item.findById(req.params.id).populate("category");
     if (item == null) {
-        const err = new Error("Item not found");
-        err.status = 404;
-        return next(err);
+        res.status(404);
+        res.json({error : "Item not found."});
     }
-
-    res.render("item_detail", { title: "Item Detail", item: item });
-});
-
-// Display Item create form on GET.
-exports.item_create_get = asyncHandler(async (req, res, next) => {
-    const categories = await Category.find().sort([["name", "ascending"]]);
-    res.render("item_form", { title: "Create Item", categories: categories });
+    res.json({item : item});
 });
 
 // Handle Item create on POST.
-exports.item_create_post = [
+exports.item_create = [
     // Validation and sanitization middleware
     body("name", "Name must not be empty.").trim().isLength({ min: 2 }).escape(),
     body("description", "Description must not be empty.").trim().isLength({ min: 2 }).escape(),
@@ -50,46 +42,30 @@ exports.item_create_post = [
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
-            const categories = await Category.find().sort([["name", "ascending"]]);
-            res.render("item_form", { title: "Create Item", categories, item: req.body, errors: errors.array() });
-        } else {
-            const newItem = await Item.create(req.body);
-            res.redirect(newItem.url); // Ensure this URL is correctly generated in your Item model
+            res.json({item: req.body, errors: errors.array() });
+            return;
+        }
+        else {
+            const item = await Item.create(req.body);
+            res.json({item: item});
         }
     })
 ];
 
-// Display Item delete form on GET.
-exports.item_delete_get = asyncHandler(async (req, res, next) => {
-    const item = await Item.findById(req.params.id)
+// Handle Item delete on DELETE.
+exports.item_delete = asyncHandler(async (req, res, next) => {
+    const item = await Item.findByIdAndDelete(req.body.itemid);
     if (item == null) {
-        res.redirect("/inventory/items");
+        res.status(404);
+        res.json({error : "Item not found."});
+    } else {
+        res.status(200);
+        res.json({message: "Item deleted."});
     }
-    res.render("item_delete", { title: "Delete Item", item: item });
-});
-
-// Handle Item delete on POST.
-exports.item_delete_post = asyncHandler(async (req, res, next) => {
-    await Item.findByIdAndDelete(req.body.itemid);
-    res.redirect("/inventory/items");
-});
-
-// Display Item update form on GET.
-exports.item_update_get = asyncHandler(async (req, res, next) => {
-    const [item, categories] = await Promise.all([
-        Item.findById(req.params.id),
-        Category.find().sort([["name", "ascending"]])
-    ]);
-    if (item == null) {
-        const err = new Error("Item not found");
-        err.status = 404;
-        return next(err);
-    }
-    res.render("item_form", { title: "Update Item", item: item, categories: categories });
 });
 
 // Handle Item update on POST.
-exports.item_update_post = [
+exports.item_update = [
     // Validate and sanitize fields.
     body("name", "Name must not be empty.").trim().isLength({ min: 2 }).escape(),
     body("description", "Description must not be empty.").trim().isLength({ min: 2 }).escape(),
@@ -101,12 +77,12 @@ exports.item_update_post = [
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
-            const categories = await Category.find().sort([["name", "ascending"]]);
-            res.render("item_form", { title: "Update Item", categories, item: req.body, errors: errors.array() });
+            res.json({item: req.body, errors: errors.array() });
             return;
-        } else {
-            updatedItem = await Item.findByIdAndUpdate(req.params.id, req.body);
-            res.redirect(updatedItem.url);
+        }
+        else {
+            const item = await Item.findByIdAndUpdate(req.params.id, req.body);
+            res.json({item: item});
         }
     })
 ];
