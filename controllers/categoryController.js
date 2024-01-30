@@ -39,7 +39,7 @@ exports.category_create = [
 // Handle Category delete on DELETE.
 exports.category_delete = asyncHandler(async(req, res, next) => {
     const [category, items] = await Promise.all([
-        Category.findById(req.body.categoryid),
+        Category.findById(req.params.id),
         Item.find({ category: req.params.id })
     ]);
     if (category == null) {

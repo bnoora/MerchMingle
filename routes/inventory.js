@@ -11,10 +11,10 @@ const itemController = require("../controllers/itemController");
 router.get("/get-index", itemController.index);
 
 // Post request for creating an item
-router.post("/item/create", itemController.item_create_post);
+router.post("/item/create", itemController.item_create);
 
 // Delete request for deleting an item
-router.delete("/item/delete/", itemController.item_delete);
+router.delete("/item/delete/:id", itemController.item_delete);
 
 // Post request for updating an item
 router.put("/item/:id", itemController.item_update);
@@ -24,6 +24,9 @@ router.get("/item/:id", itemController.item_detail);
 
 // Get request for list of all items
 router.get("/items", itemController.item_list);
+
+// Get both items and categories
+router.get("/bothitemcategories", itemController.items_and_categories);
 
 // CATEGORY ROUTES
 
