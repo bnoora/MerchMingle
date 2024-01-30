@@ -1,28 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Loading from './Loading';
 
 export default function AddEditProductForm(props) {
+    const { product, setShowAddProduct, setShowEdit } = props;
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [categories, setCategories] = useState([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [price, setPrice] = useState('');
     const [stock, setStock] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        axios.get('/api/category')
+        axios.get('/api/categories')
         .then((response) => {
-            setCategories(response.data);
+            setCategories(response.data.categories);
+            setIsLoading(false);
         })
         .catch((error) => {
             console.log(error);
+            setCategories([]);
+            setIsLoading(false);
         })
-        if (props.product) {
-            setName(props.product.name);
-            setDescription(props.product.description);
-            setSelectedCategoryId(props.product.category_id);
-            setPrice(props.product.price);
-            setStock(props.product.stock);
+        if (product) {
+            setName(product.name);
+            setDescription(product.description);
+            setSelectedCategoryId(product.category._id);
+            setPrice(product.price);
+            setStock(product.stock);
         }
     }, []);
 
@@ -42,30 +48,31 @@ export default function AddEditProductForm(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (props.product) {
-            axios.put(`/api/item/${props.product.id}`, {
+        if (product) {
+            axios.put(`/api/item/${product._id}`, {
                 name: name,
                 description: description,
-                category_id: selectedCategoryId,
+                category: selectedCategoryId,
                 price: price,
                 stock: stock
             })
             .then((response) => {
-                props.setShowEdit(false);
+                console.log(response);
+                setShowEdit(false);
             })
             .catch((error) => {
                 console.log(error);
             })
         } else {
-            axios.post('/api/item', {
+            axios.post('/api/item/create', {
                 name: name,
                 description: description,
-                category_id: selectedCategoryId,
+                category: selectedCategoryId,
                 price: price,
                 stock: stock
             })
             .then((response) => {
-                props.setShowAddProduct(false);
+                setShowAddProduct(false);
             })
             .catch((error) => {
                 console.log(error);
@@ -73,27 +80,37 @@ export default function AddEditProductForm(props) {
         }
     }
 
+
     return (
-        <div id="AddEditProductForm">
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Name</label>
-                <input type="text" name="name" value={name} onChange={handleChange}/>
-                <label htmlFor="description">Description</label>
-                <input type="text" name="description" value={description} onChange={handleChange}/>
-                <label htmlFor="category">Category</label>
-                <select name="category" value={selectedCategoryId} onChange={handleChange}>
-                    {categories.map((category) => {
-                        return (
-                            <option key={category.id} value={category.id}>{category.name}</option>
-                        );
-                    })}
-                </select>
-                <label htmlFor="price">Price</label>
-                <input type="text" name="price" value={price} onChange={handleChange}/>
-                <label htmlFor="stock">Stock</label>
-                <input type="text" name="stock" value={stock} onChange={handleChange}/>
-                <input type="submit" value="Submit"/>
-            </form>
+        
+        <div>
+            {isLoading ? (
+                <Loading />
+            ) : (
+                <>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="name">Name</label>
+                    <input type="text" name="name" value={name} onChange={handleChange}/>
+                    <label htmlFor="description">Description</label>
+                    <input type="text" name="description" value={description} onChange={handleChange}/>
+                    <label htmlFor="category">Category</label>
+                    <select name="category" value={selectedCategoryId} onChange={handleChange}>
+                        {categories?.map((category) => {
+                            return (
+                                <option key={category._id} value={category._id}>{category.name}</option>
+                            );
+                        })}
+                    </select>
+                    <label htmlFor="price">Price</label>
+                    <input type="text" name="price" value={price} onChange={handleChange}/>
+                    <label htmlFor="stock">Stock</label>
+                    <input type="text" name="stock" value={stock} onChange={handleChange}/>
+                    <input type="submit" value="Submit"/>
+                </form>
+                </>
+            )}
+
         </div>
     )
-}  
+
+}
