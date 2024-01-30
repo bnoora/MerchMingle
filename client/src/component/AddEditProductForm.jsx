@@ -46,6 +46,16 @@ export default function AddEditProductForm(props) {
         }
     }
 
+    const handleOutsideClick = (event) => {
+        if (!event.target.closest('#AddEditProductForm')) {
+            if (product) {
+                setShowEdit(false);
+            } else {
+                setShowAddProduct(false);
+            }
+        }
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
         if (product) {
@@ -83,17 +93,24 @@ export default function AddEditProductForm(props) {
 
     return (
         
-        <div>
+        <div onClick={handleOutsideClick} className='bg-gray-800 min-h-screen min-w-full fixed bg-opacity-30 top-0'>
             {isLoading ? (
                 <Loading />
             ) : (
                 <>
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="name">Name</label>
-                    <input type="text" name="name" value={name} onChange={handleChange}/>
-                    <label htmlFor="description">Description</label>
-                    <input type="text" name="description" value={description} onChange={handleChange}/>
-                    <label htmlFor="category">Category</label>
+                <form onSubmit={handleSubmit} id='AddEditProductForm' className='flex-col gap-2 fixed top-1/2 left-1/2
+                                                                                bg-slate-100 p-8 shadow-lg rounded transform 
+                                                                                -translate-x-1/2 -translate-y-1/2 flex 
+                                                                                justify-center items-center'>
+                    <label htmlFor="name" className='select-none' >Name</label>
+                    <input type="text" name="name" value={name} onChange={handleChange}
+                            className='rounded-lg border-green-600 
+                            border-2 bg-slate-300 outline-none p-1 text-center'/>
+                    <label htmlFor="description" className='select-none'>Description</label>
+                    <input type="text" name="description" value={description} onChange={handleChange}
+                            className='rounded-lg border-green-600 
+                            border-2 bg-slate-300 outline-none p-1 text-center'/>
+                    <label htmlFor="category" className='select-none'>Category</label>
                     <select name="category" value={selectedCategoryId} onChange={handleChange}>
                         {categories?.map((category) => {
                             return (
@@ -101,11 +118,18 @@ export default function AddEditProductForm(props) {
                             );
                         })}
                     </select>
-                    <label htmlFor="price">Price</label>
-                    <input type="text" name="price" value={price} onChange={handleChange}/>
-                    <label htmlFor="stock">Stock</label>
-                    <input type="text" name="stock" value={stock} onChange={handleChange}/>
-                    <input type="submit" value="Submit"/>
+                    <label htmlFor="price" className='select-none'>Price</label>
+                    <input type="text" name="price" value={price} onChange={handleChange}
+                    className='rounded-lg border-green-600 
+                    border-2 bg-slate-300 outline-none p-1 text-center'/>
+                    <label htmlFor="stock" className='select-none'>Stock</label>
+                    <input type="text" name="stock" value={stock} onChange={handleChange}
+                    className='rounded-lg border-green-600 
+                    border-2 bg-slate-300 outline-none p-1 text-center'/>
+                    <input type="submit" value="Submit" className='border-3 border-black 
+                                                        bg-slate-400 p-2 pr-4 pl-4 rounded-xl 
+                                                        hover:bg-slate-300 mt-1 transition-colors 
+                                                        duration-200 hover:cursor-pointer'/>
                 </form>
                 </>
             )}
