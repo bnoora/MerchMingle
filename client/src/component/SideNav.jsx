@@ -17,13 +17,13 @@ export default function SideNav() {
   }
 
   return (
-    <aside id="SideNav">
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/categories">Categories</Link></li>
-        <li><Link to="/products">Products</Link></li>
-        <li><button onClick={toggleShowAddCategory}>Add Category</button></li>
-        <li><button onClick={toggleShowAddProduct}>Add Product</button></li>
+    <aside id="SideNav" className='border-r-4 border-r-emerald-500 w-48 pt-4'>
+      <ul className='list-none flex flex-col items-center gap-3'>
+        <li><Link to="/" className='text-blue-500 hover:text-blue-700 hover:font-bold transition-all duration-300'>Home</Link></li>
+        <li><Link to="/categories" className='text-blue-500 hover:text-blue-700 hover:font-bold transition-all duration-300'>Categories</Link></li>
+        <li><Link to="/products" className='text-blue-500 hover:text-blue-700 hover:font-bold transition-all duration-300'>Products</Link></li>
+        <li><button onClick={toggleShowAddCategory} className='text-cyan-600 hover:font-bold transition-all duration-300'>Add Category</button></li>
+        <li><button onClick={toggleShowAddProduct} className='text-cyan-600 hover:font-bold transition-all duration-300'>Add Product</button></li>
       </ul>
       {showAddCategory ? (<AddEditCategoryForm setShowAddCategory={toggleShowAddCategory}/>) : (<div></div>)}
       {showAddProduct ? (<AddEditProductForm setShowAddProduct={toggleShowAddProduct}/>) : (<div></div>)}

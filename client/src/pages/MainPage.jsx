@@ -20,10 +20,10 @@ export default function MainPage() {
     }, [numCategories, numItems]);
     
     return (
-        <div id="MainPage">
-            <h1>Merch Mingle!</h1>
-            <p>Our Gloriuos Bussiness has {numCategories} categories</p>
-            <p>Our Gloriuos Bussiness has {numItems} products</p>
+        <div id='mainPage' className='flex-grow text-center flex flex-col justify-center'>
+            <h1 className='font-extrabold text-9xl mb-52 font-GloriaHallelujah cursor-default select-none'>Merch Mingle!</h1>
+            <p className='text-lg'>Our Gloriuos Bussiness has {numCategories} categories</p>
+            <p className='text-lg'>Our Gloriuos Bussiness has {numItems} products</p>
         </div>
     )
 }

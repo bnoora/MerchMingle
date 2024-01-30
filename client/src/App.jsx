@@ -11,19 +11,21 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 function App() {
 
   return (
-    <>
+    <div id='main' className='flex flex-row justify-between items-stretch min-h-screen min-w-full bg-gray-200'>
       <Router>
         <SideNav />
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/categories" element={<Categories/>} />
-          <Route path="/products" element={<Products/>} />
-          <Route path="/products/:id" element={<ProductPage/>} />
-          <Route path="/categories/:id" element={<CatgoryPage/>} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
+        <div id='content' className="flex-grow text-center flex flex-col">
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/categories" element={<Categories/>} />
+            <Route path="/products" element={<Products/>} />
+            <Route path="/products/:id" element={<ProductPage/>} />
+            <Route path="/categories/:id" element={<CatgoryPage/>} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </div>
       </Router>
-    </>
+    </div>
   )
 }
 
