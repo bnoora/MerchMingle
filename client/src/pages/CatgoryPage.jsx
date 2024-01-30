@@ -19,7 +19,7 @@ export default function CatgoryPage() {
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        axios.get(`/api/category/${categoryId}`)
+        axios.get(`http://localhost:3000/api/category/${categoryId}`)
         .then((response) => {
             setCategory(response.data.category);
             setItems(response.data.items);
@@ -47,27 +47,31 @@ export default function CatgoryPage() {
     }, [category, items]);
 
     return (
-        <div>
+        <div className='mt-24'>
             {isLoading ? (
                 <Loading />
             ) : (
-                <>
-                    <h1>{category?.name}</h1>
-                    <p>{category?.description}</p>
-                    <DeleteButton setShowSure={toggleShowSure}/>
-                    <EditButton setShowEdit={toggleShowEdit}/>
-                    {items.map((item) => (
-                        <ItemDiv key={item._id} item={item} category={false}/>
-                    ))}
-                    {showSure && (
-                        <AreYouSure item={category?._id} category={true} 
-                        setShowSure={toggleShowSure}/>
-                    )}
-                    {showEdit && (
-                        <AddEditCategoryForm category={category} 
-                        setShowEdit={toggleShowEdit}/>
-                    )}
-                </>
+                <div className='flex flex-col gap-3 justify-center items-center'>
+                    <h1 className='font-bold text-3xl'>{category?.name}</h1>
+                    <p className='text-s'>{category?.description}</p>
+                    <section className='flex flex-row gap-10 justify-center'>
+                        <DeleteButton setShowSure={toggleShowSure}/>
+                        <EditButton setShowEdit={toggleShowEdit}/>
+                    </section>
+                    <section className=' mt-4 grid gap-4 place-items-center grid-cols-myGrid sm:grid-cols-myGrid2 md:grid-cols-myGrid3'>
+                        {items.map((item) => (
+                            <ItemDiv key={item._id} item={item} category={false}/>
+                        ))}
+                        {showSure && (
+                            <AreYouSure item={category?._id} category={true} 
+                            setShowSure={toggleShowSure}/>
+                        )}
+                        {showEdit && (
+                            <AddEditCategoryForm category={category} 
+                            setShowEdit={toggleShowEdit}/>
+                        )}
+                    </section>
+                </div>
             )}
         </div>
     );
