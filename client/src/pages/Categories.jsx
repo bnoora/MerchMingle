@@ -7,7 +7,7 @@ export default function Categories () {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        axios.get('/api/categories')
+        axios.get('http://localhost:3000/api/categories')
         .then((response) => {
             setCategories(response.data.categories);
         })
@@ -21,8 +21,9 @@ export default function Categories () {
     } , [categories]);
 
     return (
-        <div>
-            <h1>Categories</h1>
+        <div className='ml-10 mr-10'>
+            <h1 className='text-4xl font-Kalam font-bold mt-3 mb-4 select-none'>Categories</h1>
+            <div className='grid gap-4 place-items-center grid-cols-myGrid sm:grid-cols-myGrid2 md:grid-cols-myGrid3'>
             {categories.length === 0 ? (
                 <p>No categories</p>
             ) : (
@@ -30,6 +31,7 @@ export default function Categories () {
                     <ItemDiv key={category._id} item={category} category={true} />
                 ))
             )}
+            </div>
         </div>
     );    
 }
