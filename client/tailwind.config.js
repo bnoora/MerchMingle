@@ -5,11 +5,23 @@ export default {
   ],
   theme: {
     extend: {
+      minWidth: {
+        'GridMinW': '50rem',
+      },
       fontFamily: {
         Sixtyfour: ["Sixtyfour", "Sixtyfour"],
         GloriaHallelujah : ["Gloria Hallelujah", "Gloria Hallelujah"],
         Kalam: ["Kalam", "Kalam"],
       },
+      gridTemplateColumns: {
+        'myGrid': 'repeat(1, minmax(13rem, 1fr))',
+        'myGrid2': 'repeat(2, minmax(13rem, 1fr))',
+        'myGrid3': 'repeat(3, minmax(13rem, 1fr))',
+      },
+      boxShadow: {
+        'itemshadow': '5px 5px 2px darkgrey',
+        'itemshadowhover': '5px 5px 1px black',
+      }
     },
   },
   plugins: [],
