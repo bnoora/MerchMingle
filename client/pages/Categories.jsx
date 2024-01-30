@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import ItemDiv from '../components/ItemDiv';
+import ItemDiv from '../component/ItemDiv';
+
 
 export default function Categories () {
     const [categories, setCategories] = useState([]);
@@ -12,17 +13,23 @@ export default function Categories () {
         })
         .catch((error) => {
             console.log(error);
+            setCategories([]);
         })
     }, []);
+
+    useEffect(() => {
+    } , [categories]);
 
     return (
         <div>
             <h1>Categories</h1>
-            {categories.map((category) => {
-                return (
-                    <ItemDiv key={category.id} item={category} category={true}/>
-                );
-            })}
+            {categories.length === 0 ? (
+                <p>No categories</p>
+            ) : (
+                categories.map((category) => (
+                    <ItemDiv key={category._id} item={category} category={true} />
+                ))
+            )}
         </div>
-    )
+    );    
 }
