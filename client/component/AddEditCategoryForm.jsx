@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function AddEditCategoryForm(props) {
+    const { category, setShowAddCategory, setShowEdit } = props;
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
- 
+
     useEffect(() => {
-        if (props.category) {
-            setName(props.category.name);
-            setDescription(props.category.description);
+        if (category) {
+            setName(category.name);
+            setDescription(category.description);
         }
     }, []);
 
@@ -22,13 +23,13 @@ export default function AddEditCategoryForm(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (props.category) {
-            axios.put(`/api/category/${props.category.id}`, {
+        if (category) {
+            axios.put(`/api/category/${category._id}`, {
                 name: name,
                 description: description
             })
             .then((response) => {
-                props.setShowEdit(false);
+                setShowEdit(false);
             })
             .catch((error) => {
                 console.log(error);
@@ -39,7 +40,7 @@ export default function AddEditCategoryForm(props) {
                 description: description
             })
             .then((response) => {
-                props.setShowAddCategory(false);
+                setShowAddCategory(false);
             })
             .catch((error) => {
                 console.log(error);
