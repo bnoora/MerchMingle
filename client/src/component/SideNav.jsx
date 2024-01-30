@@ -17,7 +17,7 @@ export default function SideNav() {
   }
 
   return (
-    <aside id="SideNav" className='border-r-4 border-r-emerald-500 w-48 pt-4'>
+    <aside id="SideNav" className='border-r-4 border-r-emerald-500 pt-4 min-w-36'>
       <ul className='list-none flex flex-col items-center gap-3'>
         <li><Link to="/" className='text-blue-500 hover:text-blue-700 hover:font-bold transition-all duration-300'>Home</Link></li>
         <li><Link to="/categories" className='text-blue-500 hover:text-blue-700 hover:font-bold transition-all duration-300'>Categories</Link></li>
