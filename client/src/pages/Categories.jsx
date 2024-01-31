@@ -7,7 +7,7 @@ export default function Categories () {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/categories')
+        axios.get('/api/categories')
         .then((response) => {
             setCategories(response.data.categories);
         })

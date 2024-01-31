@@ -10,7 +10,7 @@ export default function Products() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/api/bothitemcategories')
+        axios.get('/api/bothitemcategories')
         .then((response) => {
             setProducts(response.data.items);
             setCategories(response.data.categories);

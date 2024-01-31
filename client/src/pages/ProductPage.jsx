@@ -15,7 +15,7 @@ export default function ProductPage() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/item/${ItemId}`)
+        axios.get(`/api/item/${ItemId}`)
         .then((response) => {
             setProduct(response.data.item);
             setIsLoading(false);

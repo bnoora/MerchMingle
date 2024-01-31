@@ -19,7 +19,7 @@ export default function CatgoryPage() {
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/api/category/${categoryId}`)
+        axios.get(`/api/category/${categoryId}`)
         .then((response) => {
             setCategory(response.data.category);
             setItems(response.data.items);
