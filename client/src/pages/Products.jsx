@@ -46,7 +46,7 @@ export default function Products() {
                     })}
                     </select>
                     <div className=' mt-4 grid gap-4 place-items-center grid-cols-myGrid 
-                            sm:grid-cols-myGrid2 md:grid-cols-myGrid3'>
+                            sm:grid-cols-myGrid2 md:grid-cols-myGrid3 lg:grid-cols-myGrid4'>
                     {products.map((product) => {
                         if (selectedCategory === 'All' || product.category._id === selectedCategory) {
                             return (

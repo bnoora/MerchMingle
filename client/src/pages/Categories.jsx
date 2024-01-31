@@ -23,7 +23,8 @@ export default function Categories () {
     return (
         <div className='ml-10 mr-10'>
             <h1 className='text-4xl font-Kalam font-bold mt-3 mb-4 select-none'>Categories</h1>
-            <div className='grid gap-4 place-items-center grid-cols-myGrid sm:grid-cols-myGrid2 md:grid-cols-myGrid3'>
+            <div className='mt-4 grid gap-4 place-items-center grid-cols-myGrid 
+                            sm:grid-cols-myGrid2 md:grid-cols-myGrid3 lg:grid-cols-myGrid4'>
             {categories.length === 0 ? (
                 <p>No categories</p>
             ) : (

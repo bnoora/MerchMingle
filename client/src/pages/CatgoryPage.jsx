@@ -59,7 +59,7 @@ export default function CatgoryPage() {
                         <EditButton setShowEdit={toggleShowEdit}/>
                     </section>
                     <section className='mt-4 grid gap-4 place-items-center grid-cols-myGrid 
-                            sm:grid-cols-myGrid2 md:grid-cols-myGrid3'>
+                            sm:grid-cols-myGrid2 md:grid-cols-myGrid3 lg:grid-cols-myGrid4'>
                         {items.map((item) => (
                             <ItemDiv key={item._id} item={item} category={false}/>
                         ))}
