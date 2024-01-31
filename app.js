@@ -6,7 +6,6 @@ var mongoose = require('mongoose');
 const compression = require('compression');
 const helmet = require('helmet');
 const RateLimit = require("express-rate-limit");
-const cors = require('cors');
 
 var apiRouter = require('./routes/inventory');
 
@@ -32,8 +31,7 @@ app.use(
 
 // Set up mongoose connection
 mongoose.set("strictQuery", false);
-const dev_db_url = "";
-const mongoDB = process.env.MONGO_URI || dev_db_url;
+const mongoDB = process.env.MONGO_URI;
 
 main().catch((err) => console.log(err));
 async function main() {
@@ -55,7 +53,7 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// Server react app
+// Serve react app
 app.get('/', (req, res) => {
 	res.sendFile(path.join('../client/dist/index.html'));
 });
