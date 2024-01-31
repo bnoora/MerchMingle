@@ -60,7 +60,7 @@ export default function AddEditCategoryForm(props) {
 
     return (
         <div onClick={handleOutsideClick} className='bg-gray-800 min-h-screen min-w-full fixed 
-                                                    bg-opacity-30 top-0'>
+                                                    bg-opacity-30 top-0 left-0 right-0'>
                 <form  id='AddEditCategoryForm' onSubmit={handleSubmit} 
                         className='flex-col gap-2 fixed  top-1/2 left-1/2 bg-slate-100 p-8 
                         shadow-lg rounded transform -translate-x-1/2 

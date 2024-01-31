@@ -93,7 +93,8 @@ export default function AddEditProductForm(props) {
 
     return (
         
-        <div onClick={handleOutsideClick} className='bg-gray-800 min-h-screen min-w-full fixed bg-opacity-30 top-0'>
+        <div onClick={handleOutsideClick} className='bg-gray-800 min-h-screen min-w-full 
+                                                        fixed bg-opacity-30 top-0 left-0'>
             {isLoading ? (
                 <Loading />
             ) : (
