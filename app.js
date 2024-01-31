@@ -14,12 +14,12 @@ var apiRouter = require('./routes/inventory');
 var app = express();
 
 
-// // set up rate limiter: maximum of 20 requests per minute
-// const limiter = RateLimit({
-// 	windowMs: 1 * 60 * 1000, // 1 minute
-// 	max: 20
-// });
-// app.use(limiter);
+// set up rate limiter: maximum of 20 requests per minute
+const limiter = RateLimit({
+	windowMs: 1 * 60 * 1000, // 1 minute
+	max: 20
+});
+app.use(limiter);
 
 // Add helmet middleware
 app.use(
@@ -29,12 +29,6 @@ app.use(
 		},
 	})
 );
-
-const corsOptions = {
-    origin: 'http://localhost:5173',
-};
-
-app.use(cors(corsOptions));
 
 // Set up mongoose connection
 mongoose.set("strictQuery", false);
