@@ -22,7 +22,10 @@ export default {
       boxShadow: {
         'itemshadow': '5px 5px 2px darkgrey',
         'itemshadowhover': '5px 5px 1px black',
-      }
+      },
+      borderRadius: {
+        'myRadius': '50%',
+      },
     },
   },
   plugins: [],
