@@ -1,6 +1,7 @@
 # MerchMingle
 
-Merchandise and stock tracker web application built on NodeJS and React with mongoDB.
+<p align="center">Merchandise and stock tracker web application built on NodeJS and React with mongoDB.</p>
+<p align="center"><a href="https://merchmingle.fly.dev/"><b>Demo</b></a></p>
 
 ## Usage
 1. Clone repo.
