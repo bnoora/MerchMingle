@@ -15,7 +15,7 @@ export default function ProductPage() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(`/api/item/${ItemId}`)
+        axios.get(`http://localhost:3000/api/item/${ItemId}`)
         .then((response) => {
             setProduct(response.data.item);
             setIsLoading(false);
@@ -35,26 +35,31 @@ export default function ProductPage() {
     }
 
     return (
-        
-        <div>
+        <div className='mt-24'>
             {isLoading ? (
                 <Loading />
             ) : (
-                <>
-                <h1>{product?.name}</h1>
-                <p>{product?.description}</p>
-                <p>{product?.category.name}</p>
-                <div>
-                    <p>{product?.price}</p>
-                    <p>{product?.stock}</p>
+                <div className='flex flex-col gap-3 justify-center items-center'>
+                    <h1 className='font-bold text-3xl'>{product?.name}</h1>
+                    <p className='text-s'>{product?.description}</p>
+                    <p className='flex flex-row gap-10 justify-center'>{product?.category.name}</p>
+                    <div className='flex flex-row gap-3'>
+                        <p className='font-bold'>Price:</p>
+                        <p>{product?.price}</p>
+                    </div>
+                    <div className='flex flex-row gap-3'>
+                        <p className='font-bold'>Stock:</p>
+                        <p>{product?.stock}</p>
+                    </div>
+                    <div className='flex flex-row gap-10 justify-center'>
+                        <DeleteButton setShowSure={toggleShowSure}/>
+                        <EditButton setShowEdit={toggleShowEdit}/>
+                    </div>
+                    {showSure ? (<AreYouSure item={product?._id} category={false} 
+                                setShowSure={toggleShowSure}/>) : (<div></div>)}
+                    {showEdit ? (<AddEditProductForm product={product} 
+                                setShowEdit={toggleShowEdit}/>) : (<div></div>)}
                 </div>
-                <DeleteButton setShowSure={toggleShowSure}/>
-                <EditButton setShowEdit={toggleShowEdit}/>
-                {showSure ? (<AreYouSure item={product?._id} category={false} 
-                            setShowSure={toggleShowSure}/>) : (<div></div>)}
-                {showEdit ? (<AddEditProductForm product={product} 
-                            setShowEdit={toggleShowEdit}/>) : (<div></div>)}
-                </>
             )}
 
         </div>
