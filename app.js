@@ -6,21 +6,23 @@ var mongoose = require('mongoose');
 const compression = require('compression');
 const helmet = require('helmet');
 const RateLimit = require("express-rate-limit");
+const http = require('http');
 
 var apiRouter = require('./routes/inventory');
 
-
 var app = express();
+const server = http.createServer(app);
+const port = process.env.PORT || 3000;
 
-
-// set up rate limiter: maximum of 20 requests per minute
+// Middleware
+// set up rate limiter: maximum of 40 requests per minute
 const limiter = RateLimit({
 	windowMs: 1 * 60 * 1000, // 1 minute
-	max: 20
+	max: 40
 });
 app.use(limiter);
 
-// Add helmet middleware
+// Add helmet
 app.use(
 	helmet.contentSecurityPolicy({
 		directives: {
@@ -38,24 +40,28 @@ async function main() {
 	await mongoose.connect(mongoDB);
 }
 
+// Express configuration
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, '/client/dist')));
+app.use(express.urlencoded({ extended: true }));
+
+// Api routes
+app.use('/api', apiRouter);
 
 // Add compression middleware
 app.use(compression());
 
-app.use('/api', apiRouter);
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'client/dist')));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use('/api/*', function(req, res, next) {
+	next(createError(404));
 });
-
+  
 // Serve react app
-app.get('/', (req, res) => {
-	res.sendFile(path.join('../client/dist/index.html'));
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, 'client/dist/index.html'));
 });
 
 // error handler
@@ -68,4 +74,9 @@ app.use(function(err, req, res, next) {
 	res.status(err.status || 500).json({ error: err.message });
   });
 
-module.exports = app;
+
+// Listen on port
+server.listen(port, () => {
+	console.log(`Listening on port ${port}`);
+	console.log(path.join(__dirname, 'client/dist'));
+});
