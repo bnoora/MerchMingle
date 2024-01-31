@@ -50,6 +50,7 @@ exports.category_delete = asyncHandler(async(req, res, next) => {
         res.status(400);
         res.json({error : "Category has items."});
     } else {
+        await Category.findByIdAndDelete(req.params.id);
         res.status(200);
         res.json({message: "Category deleted."});
     }
