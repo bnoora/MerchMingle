@@ -17,7 +17,7 @@ export default function SideNav() {
   }
 
   return (
-    <aside id="SideNav" className='border-r-4 border-r-emerald-500 pt-4 min-w-36'>
+    <aside id="SideNav" className='border-r-4 border-r-emerald-500 pt-4 min-w-36 flex flex-col justify-between'>
       <ul className='list-none flex flex-col items-center gap-3'>
         <li><Link to="/" className='text-blue-500 hover:text-blue-700 hover:font-bold transition-all duration-300'>Home</Link></li>
         <li><Link to="/categories" className='text-blue-500 hover:text-blue-700 hover:font-bold transition-all duration-300'>Categories</Link></li>
@@ -27,6 +27,7 @@ export default function SideNav() {
       </ul>
       {showAddCategory ? (<AddEditCategoryForm setShowAddCategory={toggleShowAddCategory}/>) : (<div></div>)}
       {showAddProduct ? (<AddEditProductForm setShowAddProduct={toggleShowAddProduct}/>) : (<div></div>)}
+      <footer className='mb-1 ml-1 text-xs'>By<a href="https://github.com/bnoora"> Bnoora</a></footer>
     </aside>
   );
 }
